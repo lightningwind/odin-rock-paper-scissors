@@ -7,7 +7,7 @@ function computerPlay() {
 }
 
 /* Returns a string declaring the winner of this round. */
-function playRound(playerSelection, computerSelection) {
+function displayMessage(playerSelection, computerSelection) {
     // Make it case-insensitive
     playerSelection = playerSelection.toLowerCase();
 
@@ -28,6 +28,39 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-const playerSelection = "rock";
-const computerSelection = computerPlay();
-console.log(playRound(playerSelection, computerSelection));
+/* Either returns the value 0 if there was a tie, 
+1 if the player won, or -1 if the computer won. */
+function playRound(playerSelection, computerSelection) {
+    // Make it case-insensitive
+    playerSelection = playerSelection.toLowerCase();
+
+    if (playerSelection === 'rock') {
+        return (computerSelection === 'rock') ? 0 :
+        (computerSelection === 'paper') ? -1 : 1;
+    } else if (playerSelection === 'paper') {
+        return (computerSelection === 'rock') ? 1 :
+        (computerSelection === 'paper') ? 0 : -1;
+    } else if (playerSelection === 'scissors') {
+        return (computerSelection === 'rock') ? -1 :
+        (computerSelection === 'paper') ? 1 : 0;
+    } else {
+        return 0;
+    }
+}
+
+/* Plays a five round game of Rock paper scissors keeping score 
+and returning the winner/loser at the end. */
+function game() {
+    let score = 0;
+    for (let i = 0; i < 5; i++) { // Play five rounds
+        const playerSelection = prompt('Rock, paper, or scissors?');
+        const computerSelection = computerPlay();
+        score += playRound(playerSelection, computerSelection);
+        console.log(displayMessage(playerSelection, computerSelection));
+    }
+    return (score === 0) ? 'It was a tie!' :
+    (score > 0) ? 'You win!' :
+    'You lose!'; 
+}
+
+console.log(game());
