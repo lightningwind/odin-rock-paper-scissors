@@ -1,9 +1,9 @@
-/* Randomly returns the string 'Rock', 'Paper', or 'Scissors'. */
+/* Randomly returns the string 'rock', 'paper', or 'scissors'. */
 function computerPlay() {
     const num = Math.floor(Math.random() * 3);
-    return (num === 0) ? 'Rock' :
-    (num === 1) ? 'Paper' :
-    'Scissors';
+    return (num === 0) ? 'rock' :
+    (num === 1) ? 'paper' :
+    'scissors';
 }
 
 /* Returns a string declaring the winner of this round. */
@@ -12,31 +12,19 @@ function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toLowerCase();
 
     if (playerSelection === 'rock') {
-        if (computerSelection === 'Rock') {
-            // TODO: Tie
-        } else if (computerSelection === 'Paper') {
-            return 'You Lose! Paper beats Rock';
-        } else { // Scissors
-            return 'You Win! Rock beats Scissors';
-        }
+        return (computerSelection === 'rock') ? 'Tie!' :
+        (computerSelection === 'paper') ? 'You Lose! Paper beats Rock' :
+        'You Win! Rock beats Scissors';
     } else if (playerSelection === 'paper') {
-        if (computerSelection === 'Rock') {
-            return 'You Win! Paper beats Rock';
-        } else if (computerSelection === 'Paper') {
-            // TODO: Tie
-        } else { // Scissors
-            return 'You Lose! Scissors beats Paper';
-        }
+        return (computerSelection === 'rock') ? 'You Win! Paper beats Rock' :
+        (computerSelection === 'paper') ? 'Tie!' :
+        'You Lose! Scissors beats Paper';
     } else if (playerSelection === 'scissors') {
-        if (computerSelection === 'Rock') {
-            return 'You Lose! Rock beats Scissors';
-        } else if (computerSelection === 'Paper') {
-            return 'You Win! Scissors beats Paper';
-        } else { // Scissors
-            // TODO: Tie
-        }
+        return (computerSelection === 'rock') ? 'You Lose! Rock beats Scissors' :
+        (computerSelection === 'paper') ? 'You Win! Scissors beats Paper' :
+        'Tie!';
     } else {
-        // TODO: Handle invalid user input
+        return 'Invalid input';
     }
 }
 
