@@ -69,8 +69,9 @@ function game() {
     btn1.textContent = 'Rock'; 
     btn2.textContent = 'Paper';
     btn3.textContent = 'Scissors';
-    msgDiv.textContent = 'Message: '; 
+    msgDiv.textContent = 'Message: The first player with 5 points wins the game'; 
     scoreDiv.textContent = `Running score: ${score}`; 
+    announceDiv.style.cssText = 'color: rebeccapurple; font-weight: 700; font-size: 2em;'; 
 
     buttons.forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -81,7 +82,6 @@ function game() {
             scoreDiv.textContent = `Running score: ${score}`; 
             announceDiv.textContent = ''; 
             if (Math.abs(score) === NUM_ROUNDS) { // check for winner
-                announceDiv.style.color = 'rebeccapurple';
                 announceDiv.textContent = score > 0 ? "You win!" : "You lose!";
                 score = 0;
             }
