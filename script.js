@@ -7,9 +7,9 @@ function game() {
 function playRound() {
     const playerSelection = playerChoice();
     const computerSelection = computerChoice();
+    const winner = checkWinner(playerSelection, computerSelection);
 }
 
-/* Randomly returns the string 'rock', 'paper', or 'scissors'. */
 function computerChoice() {
     const idx = Math.floor(Math.random() * choices.length);
     return choices[idx];
@@ -25,33 +25,27 @@ function playerChoice() {
         userInput = prompt("Enter rock, paper, or scissors. Spelling needs to be exact, but capitalization doesn't matter.");
         userInput = userInput.toLowerCase();
     }
+    return userInput;
 }
 
 function validateUserInput(choice) {
     return choices.includes(choice);
 }
 
-/* Returns a string declaring the winner of this round. */
-// function displayMessage(playerSelection, computerSelection) {
-//     // Make it case-insensitive
-//     playerSelection = playerSelection.toLowerCase();
+function checkWinner(playerSelection, computerSelection) {
+    if (playerSelection === computerSelection) {
+        return "Tie"; 
+    } else if ( 
+        (playerSelection === "rock" && computerSelection === "scissors") ||
+        (playerSelection === "paper" && computerSelection === "rock") ||
+        (playerSelection === "scissors" && computerSelection === "paper")
+    ) {
+        return "Player wins";
+    } else {
+        return "Computer wins";
+    }
+}
 
-//     if (playerSelection === 'rock') {
-//         return (computerSelection === 'rock') ? 'Tie!' :
-//         (computerSelection === 'paper') ? 'You Lose! Paper beats Rock' :
-//         'You Win! Rock beats Scissors';
-//     } else if (playerSelection === 'paper') {
-//         return (computerSelection === 'rock') ? 'You Win! Paper beats Rock' :
-//         (computerSelection === 'paper') ? 'Tie!' :
-//         'You Lose! Scissors beats Paper';
-//     } else if (playerSelection === 'scissors') {
-//         return (computerSelection === 'rock') ? 'You Lose! Rock beats Scissors' :
-//         (computerSelection === 'paper') ? 'You Win! Scissors beats Paper' :
-//         'Tie!';
-//     } else {
-//         return 'Invalid input';
-//     }
-// }
 
 /* Plays a five round game of Rock paper scissors keeping score 
 and returning the winner/loser at the end. */
