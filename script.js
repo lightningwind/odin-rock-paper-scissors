@@ -61,4 +61,4 @@ function reportWins() {
     console.log("Ties: ", tiesCount);
 }
 
-game();
+// game();
