@@ -1,9 +1,9 @@
+const choices = ["rock", "paper", "scissors"];
+
 /* Randomly returns the string 'rock', 'paper', or 'scissors'. */
-function computerPlay() {
-    const num = Math.floor(Math.random() * 3);
-    return (num === 0) ? 'rock' :
-    (num === 1) ? 'paper' :
-    'scissors';
+function computerChoice() {
+    const idx = Math.floor(Math.random() * choices.length);
+    return choices[idx];
 }
 
 /* Returns a string declaring the winner of this round. */
