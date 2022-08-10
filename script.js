@@ -2,40 +2,30 @@ const choices = ["rock", "paper", "scissors"];
 const winners = [];
 const NUM_ROUNDS = 5;
 
-function game() {
-    for (let i = 0; i < NUM_ROUNDS; i++) {
-        playRound();
-    }
-    reportWins();
+function resetGame() {
+
 }
 
-function playRound() {
-    const playerSelection = playerChoice();
+function startGame() {
+    const queryStr = ".playerBtns > button";
+    const playerButtons = document.querySelectorAll(queryStr);
+    playerButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            playRound(btn.className);
+        })
+    })
+}
+
+function playRound(playerSelection) {
     const computerSelection = computerChoice();
     const winner = checkWinner(playerSelection, computerSelection);
     winners.push(winner);
 }
 
 function computerChoice() {
+    // TODO: Update DOM with computer selection
     const idx = Math.floor(Math.random() * choices.length);
     return choices[idx];
-}
-
-function playerChoice() {
-    let userInput = prompt("Enter rock, paper, or scissors: ");
-    while (userInput === null) {
-        userInput = prompt("Enter rock, paper, or scissors: ");
-    }
-    userInput = userInput.toLowerCase();
-    while (!validateUserInput(userInput)) {
-        userInput = prompt("Enter rock, paper, or scissors. Spelling needs to be exact, but capitalization doesn't matter.");
-        userInput = userInput.toLowerCase();
-    }
-    return userInput;
-}
-
-function validateUserInput(choice) {
-    return choices.includes(choice);
 }
 
 function checkWinner(playerSelection, computerSelection) {
@@ -52,13 +42,10 @@ function checkWinner(playerSelection, computerSelection) {
     }
 }
 
-function reportWins() {
+function setWins() {
     let playerWinsCount = winners.filter(winner => winner === "player").length;
     let computerWinsCount = winners.filter(winner => winner === "computer").length;
     let tiesCount = winners.filter(item => item === "tie").length;
-    console.log("Player wins: ", playerWinsCount);
-    console.log("Computer wins: ", computerWinsCount);
-    console.log("Ties: ", tiesCount);
 }
 
-// game();
+startGame();
