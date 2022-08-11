@@ -16,10 +16,38 @@ function startGame() {
     })
 }
 
+/* Plays one round of RPS if the game is not over. */
 function playRound(playerSelection) {
+    const numWins = checkWins();
+    if (numWins >= 5) {
+        return;
+    }
     const computerSelection = computerChoice();
     const winner = checkWinner(playerSelection, computerSelection);
     winners.push(winner);
+    updateCounts();
+    displayRound(playerSelection, computerSelection, winner);
+}
+
+/* Displays what the player chose, computer chose, and who won
+the round. */
+function displayRound(playerSelection, computerSelection, winner) {
+
+}
+
+/* Updates tie, player, and computer counts. */
+function updateCounts() {
+    const playerWinsCount = winners.filter(winner => winner === "player").length;
+    const computerWinsCount = winners.filter(winner => winner === "computer").length;
+    const tiesCount = winners.filter(item => item === "tie").length;
+
+    const tiesScoreDiv = document.querySelector(".ties");
+    const playerScoreDiv = document.querySelector(".playerScore");
+    const computerScoreDiv = document.querySelector(".computerScore");
+
+    tiesScoreDiv.textContent = `Ties: ${tiesCount}`;
+    playerScoreDiv.textContent = `Score: ${playerWinsCount}`;
+    computerScoreDiv.textContent = `Score: ${computerWinsCount}`;
 }
 
 function computerChoice() {
@@ -40,6 +68,13 @@ function checkWinner(playerSelection, computerSelection) {
     } else {
         return "computer";
     }
+}
+
+/* Returns the total number of wins so far of the winning player. */
+function checkWins() {
+    const playerWinsCount = winners.filter(winner => winner === "player").length;
+    const computerWinsCount = winners.filter(winner => winner === "computer").length;
+    return Math.max(playerWinsCount, computerWinsCount);
 }
 
 function setWins() {
