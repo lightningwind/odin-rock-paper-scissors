@@ -1,5 +1,4 @@
 const choices = ["rock", "paper", "scissors"];
-// const winners = [];
 let numTies = 0;
 let numPlayerWins = 0;
 let numComputerWins = 0;
@@ -11,9 +10,9 @@ function resetGame() {
 }
 
 /* Starts the RPS game by attaching event listeners to
-the player's buttons. */
+the user's buttons. */
 function startGame() {
-    const queryStr = ".playerBtns > button";
+    const queryStr = "div.playerBtns > button";
     const playerButtons = document.querySelectorAll(queryStr);
     playerButtons.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -24,33 +23,42 @@ function startGame() {
 
 /* Plays one round of RPS if the game is not already over. */
 function playRound(playerSelection) {
-    let numWins = checkWins();
-    if (numWins >= NUM_ROUNDS) {
+    if (isGameOver()) {
         return;
     }
     const computerSelection = computerChoice();
-    const winner = checkWinner(playerSelection, computerSelection);
-    // winners.push(winner);
-    updateCounts();
-    displayRound(playerSelection, computerSelection, winner);
-    numWins = checkWins(); 
-    if (numWins === NUM_ROUNDS) {
+    const winner = getWinner(playerSelection, computerSelection);
+    updateScores();
+    displayRoundResults(playerSelection, computerSelection, winner);
+    if (isGameOver()) {
         displayEnd(); 
     }
+}
+
+/* Returns true iff a player has reached NUM_ROUNDS wins. */
+function isGameOver() {
+    const numWins = checkWins();
+    return numWins >= NUM_ROUNDS; 
 }
 
 /* Displays the end results, including the play again button and
 the winner of the game. */
 function displayEnd() {
     const winnerEle = document.querySelector(".winner");
-    winnerEle.textContent = numPlayerWins === NUM_ROUNDS ? 
-                            "Congratulations, you won the game!" :
-                            "Sorry, the computer won the game.";
+    const btn = document.querySelector(".reset");
+    
+    if (numPlayerWins === NUM_ROUNDS) {
+        winnerEle.textContent = "Congratulations, you won the game!";
+    } else {
+        winnerEle.textContent = "Sorry, the computer won the game.";
+    }
+
+    btn.classList.toggle("reset"); 
 }
 
-/* Displays what the player chose, computer chose, and who won
+/* Displays what the player and computer have chosen, and who won
 the round. */
-function displayRound(playerSelection, computerSelection, winner) {
+function displayRoundResults(playerSelection, computerSelection, winner) {
     playerSelection = capitalizeWord(playerSelection);
     computerSelection = capitalizeWord(computerSelection);
     winner = capitalizeWord(winner);
@@ -69,8 +77,8 @@ function capitalizeWord(s) {
     return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-/* Updates tie, player, and computer counts. */
-function updateCounts() {
+/* Updates the DOM with tie, player, and computer scores. */
+function updateScores() {
     // Grab references to DOM nodes
     const tiesScoreEle = document.querySelector(".ties");
     const playerScoreEle = document.querySelector(".playerScore");
@@ -82,14 +90,14 @@ function updateCounts() {
     computerScoreEle.textContent = `Score: ${numComputerWins}`;
 }
 
+/* Returns a randomly selected choice from array <choices>. */
 function computerChoice() {
-    // TODO: Update DOM with computer selection
     const idx = Math.floor(Math.random() * choices.length);
     return choices[idx];
 }
 
 /* Returns the winnner of this round. */
-function checkWinner(playerSelection, computerSelection) {
+function getWinner(playerSelection, computerSelection) {
     if (playerSelection === computerSelection) {
         numTies++;
         return "tie"; 
