@@ -1,19 +1,41 @@
+// Initialize global variables
 const choices = ["rock", "paper", "scissors"];
 let numTies = 0;
 let numPlayerWins = 0;
 let numComputerWins = 0;
 const NUM_ROUNDS = 5;
 
-/* TODO: Resets the game */
-function resetGame() {
+// Grab references to our DOM elements
+const winnerEle = document.querySelector("h1.winner");
+const playAgainBtn = document.querySelector(".winnerDiv > button");
+const playerChoiceEle = document.querySelector(".playerChoice");
+const computerChoiceEle = document.querySelector(".computerChoice");
+const tiesScoreEle = document.querySelector(".ties");
+const playerScoreEle = document.querySelector(".playerScore");
+const computerScoreEle = document.querySelector(".computerScore");
+const playerButtons = document.querySelectorAll("div.playerBtns > button");
 
+/* Resets the game to its original state. */
+function resetGame() {
+    numTies = 0;
+    numPlayerWins = 0;
+    numComputerWins = 0;
+
+    updateScores();
+
+    winnerEle.textContent = "";
+    playAgainBtn.classList.toggle("reset");
+    playerChoiceEle.textContent = "";
+    computerChoiceEle.textContent = "";
+
+    playerButtons.forEach(btn => {
+        btn.disabled = false; 
+    })
 }
 
 /* Starts the RPS game by attaching event listeners to
 the user's buttons. */
 function startGame() {
-    const queryStr = "div.playerBtns > button";
-    const playerButtons = document.querySelectorAll(queryStr);
     playerButtons.forEach(btn => {
         btn.addEventListener("click", () => {
             playRound(btn.className);
@@ -21,11 +43,8 @@ function startGame() {
     })
 }
 
-/* Plays one round of RPS if the game is not already over. */
+/* Plays one round of RPS. */
 function playRound(playerSelection) {
-    if (isGameOver()) {
-        return;
-    }
     const computerSelection = computerChoice();
     const winner = getWinner(playerSelection, computerSelection);
     updateScores();
@@ -44,16 +63,16 @@ function isGameOver() {
 /* Displays the end results, including the play again button and
 the winner of the game. */
 function displayEnd() {
-    const winnerEle = document.querySelector(".winner");
-    const btn = document.querySelector(".reset");
-    
     if (numPlayerWins === NUM_ROUNDS) {
         winnerEle.textContent = "Congratulations, you won the game!";
     } else {
         winnerEle.textContent = "Sorry, the computer won the game.";
     }
 
-    btn.classList.toggle("reset"); 
+    playAgainBtn.classList.toggle("reset"); 
+    playerButtons.forEach(btn => {
+        btn.disabled = true;
+    })
 }
 
 /* Displays what the player and computer have chosen, and who won
@@ -62,10 +81,6 @@ function displayRoundResults(playerSelection, computerSelection, winner) {
     playerSelection = capitalizeWord(playerSelection);
     computerSelection = capitalizeWord(computerSelection);
     winner = capitalizeWord(winner);
-
-    const winnerEle = document.querySelector(".winner");
-    const playerChoiceEle = document.querySelector(".playerChoice");
-    const computerChoiceEle = document.querySelector(".computerChoice");
 
     winnerEle.textContent = winner === "Tie" ? "It was a tie!" : `The winner of this round is: ${winner}`;
     playerChoiceEle.textContent = `You chose: ${playerSelection}`;
@@ -79,12 +94,6 @@ function capitalizeWord(s) {
 
 /* Updates the DOM with tie, player, and computer scores. */
 function updateScores() {
-    // Grab references to DOM nodes
-    const tiesScoreEle = document.querySelector(".ties");
-    const playerScoreEle = document.querySelector(".playerScore");
-    const computerScoreEle = document.querySelector(".computerScore");
-
-    // Update text content
     tiesScoreEle.textContent = `Ties: ${numTies}`;
     playerScoreEle.textContent = `Score: ${numPlayerWins}`;
     computerScoreEle.textContent = `Score: ${numComputerWins}`;
