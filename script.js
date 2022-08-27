@@ -102,7 +102,16 @@ function updateScores() {
 /* Returns a randomly selected choice from array <choices>. */
 function computerChoice() {
     const idx = Math.floor(Math.random() * choices.length);
-    return choices[idx];
+    const choice = choices[idx];
+
+    const btn = document.querySelector(`.computerBtns > button.${choice}`);
+    
+    btn.disabled = false;
+    setTimeout(() => {
+        btn.disabled = true;
+    }, 700);
+
+    return choice;
 }
 
 /* Returns the winnner of this round. */
